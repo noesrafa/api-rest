@@ -1,0 +1,16 @@
+{
+  "name": "api-rest",
+  "version": "1.0.0",
+  "description": "API REST",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
+  },
+  "type": "module",
+  "author": "Rafael Alexander",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
