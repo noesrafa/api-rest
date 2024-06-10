@@ -5,7 +5,7 @@ import {
   getAllOpenai,
   getOneOpenai,
   updateOpenai,
-} from "../../controllers/openaiControllers.js";
+} from "../../controllers/openai.controllers.js";
 const router = express.Router();
 
 router

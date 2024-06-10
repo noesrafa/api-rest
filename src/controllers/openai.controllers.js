@@ -2,41 +2,13 @@ import OpenAI from "openai";
 import dotenv from "dotenv";
 dotenv.config();
 
+import { createThread, threadsByUser } from "../database/utils.js";
+
 const openai = new OpenAI();
 
 const getAllOpenai = async (_, res) => {
   try {
-    const thread = await openai.beta.threads.create();
-
-    await openai.beta.threads.messages.create(thread.id, {
-      role: "user",
-      content: "Hola! me puedes dar un dato curioso?",
-    });
-
-    let run = await openai.beta.threads.runs.createAndPoll(thread.id, {
-      assistant_id: process.env.OPENAI_ASSISTANT_ID,
-      instructions: "Be funny",
-    });
-
-    if (run.status === "completed") {
-      const messagesList = await openai.beta.threads.messages.list(
-        run.thread_id
-      );
-      const messages = messagesList.data.map((msg) => msg.content)[0][0].text
-        .value;
-
-      console.log("Jokes: ", messages);
-
-      res.status(200).send({
-        status: "success",
-        message: messages,
-      });
-    } else {
-      res.status(404).send({
-        status: run.status,
-        message: run,
-      });
-    }
+    res.send("GET all");
   } catch (error) {
     res.status(500).send({
       status: "error",
@@ -58,7 +30,16 @@ const createOpenai = async (req, res) => {
     });
   }
   try {
-    const thread = await openai.beta.threads.create();
+    const previousThreads = await threadsByUser(body.phoneNumber);
+    const haveThreads = previousThreads && previousThreads.length > 0;
+
+    const thread = haveThreads
+      ? previousThreads[0]
+      : await openai.beta.threads.create();
+
+    if (!haveThreads) {
+      await createThread(body.phoneNumber, thread);
+    }
 
     await openai.beta.threads.messages.create(thread.id, {
       role: "user",
