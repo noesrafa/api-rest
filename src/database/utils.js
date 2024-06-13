@@ -65,6 +65,13 @@ const handleRequiresAction = async (run, thread, client) => {
             output: "HUBO UN ERROR 123 AL ENVIAR A VENTAS",
           };
         }
+        if (tool.function.name === "get_acuse") {
+          console.log("tool", tool);
+          return {
+            tool_call_id: tool.id,
+            output: "url: https://acuse.com/1234567890",
+          };
+        }
       }
     );
 

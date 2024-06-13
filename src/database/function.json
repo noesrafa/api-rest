@@ -1,0 +1,21 @@
+{
+    "name": "get_acuse",
+    "description": "Obtiene el acuse de la base de datos de un periodo especifico",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "month": {
+          "type": "string",
+          "description": "Mes del acuse"
+        },
+        "year": {
+          "type": "string",
+          "description": "año del acuse"
+        }
+      },
+      "required": [
+        "month",
+        "year"
+      ]
+    }
+  }
