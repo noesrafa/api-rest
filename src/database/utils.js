@@ -57,8 +57,8 @@ const handleRequiresAction = async (run, thread, client) => {
     run.required_action.submit_tool_outputs.tool_calls
   ) {
     // Loop through each tool in the required action section
-    const toolOutputs = run.required_action.submit_tool_outputs.tool_calls.map(
-      (tool) => {
+    const toolOutputs = await Promise.all(
+      run.required_action.submit_tool_outputs.tool_calls.map(async (tool) => {
         if (tool.function.name === "send_to_sales") {
           return {
             tool_call_id: tool.id,
@@ -66,13 +66,26 @@ const handleRequiresAction = async (run, thread, client) => {
           };
         }
         if (tool.function.name === "get_acuse") {
-          console.log("tool", tool);
+          console.log("\n\nTOOL ->", tool);
+          const functionArgs = JSON.parse(tool?.function?.arguments);
+
+          const fakeApiCall = async () => {
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                resolve("https://acuse.com/1234567890");
+              }, 200);
+            });
+          };
+
+          const acuseUrl = await fakeApiCall();
+          console.log("Acuse URL:", acuseUrl);
+
           return {
             tool_call_id: tool.id,
-            output: "url: https://acuse.com/1234567890",
+            output: `Acuse ${functionArgs?.month}/${functionArgs?.year} exitosamente, puedes descargarlo desde el siguiente enlace: https://acuse.com/1234567890`,
           };
         }
-      }
+      })
     );
 
     // Submit all tool outputs at once after collecting them in a list
@@ -82,7 +95,7 @@ const handleRequiresAction = async (run, thread, client) => {
         run.id,
         { tool_outputs: toolOutputs }
       );
-      console.log("Tool outputs submitted successfully.");
+      console.log("Tool outputs submitted successfully. ✅");
     } else {
       console.log("No tool outputs to submit.");
     }

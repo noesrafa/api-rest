@@ -68,14 +68,9 @@ const generateMessage = async (req, res) => {
       });
     } else if (run.status === "requires_action") {
       const action = await handleRequiresAction(run, thread, openai);
-      // res.status(200).send({
-      //   status: run.status,
-      //   run: run,
-      //   message: action,
-      // });`^«~\\≠¶ª•ª¶¶§∞¢£“[]¨*!"#$%&/()))(/&////^^`~«§¶§∞¢£“¡£¢∞§¶•ª•¶§∞¢£“¡!"#$%&/()8
-      console.log("\n\nACTION", action?.[0]?.content?.[0]);
+      const actionMessage = action?.[0]?.content?.[0]?.text?.value;
       res.status(200).send({
-        botMessage: action?.[0]?.content?.[0]?.text?.value,
+        botMessage: actionMessage,
         nextModuleNickname: "",
         responseExpected: true,
       });
