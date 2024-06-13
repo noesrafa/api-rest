@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  phoneNumber: { type: String, required: true, unique: true },
+  email: { type: String, unique: true, unique: true },
   currentAssistantId: { type: String, required: true },
 });
 

@@ -9,10 +9,10 @@ const saveToDatabase = (data) =>
     encoding: "utf8",
   });
 
-async function createUser(phoneNumber) {
+async function createUser(email) {
   try {
     const user = new User({
-      phoneNumber,
+      email,
       currentAssistantId: process.env.OPENAI_ASSISTANT_SUPPORT_ID,
     });
     await user.save();
@@ -22,11 +22,11 @@ async function createUser(phoneNumber) {
   }
 }
 
-const saveThread = async (phoneNumber, threadContent) => {
-  let user = await User.findOne({ phoneNumber: phoneNumber });
+const saveThread = async (email, threadContent) => {
+  let user = await User.findOne({ email });
 
   if (!user) {
-    user = await createUser(phoneNumber);
+    user = await createUser(email);
   }
 
   const thread = new Thread({
@@ -41,8 +41,8 @@ const saveThread = async (phoneNumber, threadContent) => {
   return thread;
 };
 
-const threadsByUser = async (phoneNumber) => {
-  let user = await User.findOne({ phoneNumber });
+const threadsByUser = async (email) => {
+  let user = await User.findOne({ email });
   if (!user) return null;
 
   const threads = await Thread.find({ userId: user._id });

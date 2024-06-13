@@ -1,0 +1,67 @@
+{
+  "portalId": 9494835,
+  "userMessage": { "message": "noesrafa@gmail.com", "quickReply": null },
+  "parsedResult": null,
+  "bot": {
+    "nickname": "PRY-CX AI",
+    "conversationChannelType": "WEB",
+    "chatflowId": 44242481
+  },
+  "module": {
+    "botNickname": "PRY-CX AI",
+    "fallbackNextModuleNickname": null,
+    "failureNextModuleNickname": null,
+    "moduleType": "WEBHOOK",
+    "nickname": "Send message to openai",
+    "prompt": null,
+    "promptHtml": null,
+    "config": {
+      "id": 764547,
+      "timeout": 3000,
+      "customPayload": null,
+      "expectingResponse": true
+    }
+  },
+  "session": {
+    "vid": 29823468290,
+    "conversationId": 7353179221,
+    "botNickname": "PRY-CX AI",
+    "currentModuleNickname": "Send message to openai",
+    "sessionStartedAt": 1718299815059,
+    "lastInteractionAt": 1718299825946,
+    "state": "ACTIVE",
+    "customState": {},
+    "responseExpected": false,
+    "parsedResponses": {
+      "Get email": {
+        "parsedResponse": "noesrafa@gmail.com",
+        "parsedQuickReplyLabel": null,
+        "customState": {},
+        "propertyChanges": { "contact": { "email": "noesrafa@gmail.com" } },
+        "propertyValueType": "STRING",
+        "success": true,
+        "preempted": false,
+        "executionTime": 1718299825041
+      },
+      "Welcome message": {
+        "parsedResponse": "hola crayola",
+        "parsedQuickReplyLabel": null,
+        "customState": {},
+        "propertyChanges": {},
+        "propertyValueType": "STRING",
+        "success": true,
+        "preempted": false,
+        "executionTime": 1718299815176
+      }
+    },
+    "properties": {
+      "CONTACT": {
+        "email": { "value": "noesrafa@gmail.com", "synchedAt": 1718299825850 }
+      },
+      "CONVERSATION": {
+        "threadId": { "value": "ThreadId{7353179221}", "synchedAt": 0 }
+      }
+    }
+  },
+  "customPayload": null
+}
