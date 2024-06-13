@@ -34,9 +34,11 @@ const createOpenai = async (req, res) => {
   const { body } = req;
 
   console.log("body", body);
+  console.log("bodyString", JSON.stringify(body));
+  console.log("messages", body?.session?.parsedResponses?.["Welcome message"]);
 
   res.status(200).send(body);
-  return
+  return;
 
   if (!body.message) {
     res.status(400).send({
