@@ -2,9 +2,18 @@ import OpenAI from "openai";
 import dotenv from "dotenv";
 dotenv.config();
 
-import { createThread, threadsByUser } from "../database/utils.js";
+import {
+  saveThread,
+  threadsByUser,
+  handleRequiresAction,
+} from "../database/utils.js";
 
 const openai = new OpenAI();
+
+const assistants = {
+  support: process.env.OPENAI_ASSISTANT_SUPPORT_ID,
+  sales: process.env.OPENAI_ASSISTANT_SALES_ID,
+};
 
 const getAllOpenai = async (_, res) => {
   try {
@@ -31,15 +40,13 @@ const createOpenai = async (req, res) => {
   }
   try {
     const previousThreads = await threadsByUser(body.phoneNumber);
-    const haveThreads = previousThreads && previousThreads.length > 0;
+    const haveThreads = previousThreads && previousThreads?.length > 0;
 
     const thread = haveThreads
       ? previousThreads[0]
       : await openai.beta.threads.create();
 
-    if (!haveThreads) {
-      await createThread(body.phoneNumber, thread);
-    }
+    if (!haveThreads) await saveThread(body.phoneNumber, thread);
 
     await openai.beta.threads.messages.create(thread.id, {
       role: "user",
@@ -47,7 +54,7 @@ const createOpenai = async (req, res) => {
     });
 
     let run = await openai.beta.threads.runs.createAndPoll(thread.id, {
-      assistant_id: process.env.OPENAI_ASSISTANT_ID,
+      assistant_id: assistants.support,
       instructions: "Be kind",
     });
 
@@ -61,6 +68,13 @@ const createOpenai = async (req, res) => {
       res.status(200).send({
         status: "success",
         message: messages,
+      });
+    } else if (run.status === "requires_action") {
+      const action = await handleRequiresAction(run, thread, openai);
+      res.status(200).send({
+        status: run.status,
+        run: run,
+        message: action,
       });
     } else {
       res.status(404).send({

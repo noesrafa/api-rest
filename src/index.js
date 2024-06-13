@@ -8,7 +8,7 @@ import V1ThreadsRouter from "./v1/routes/threads.routes.js";
 const app = express();
 const PORT = process.env.PORT || 1234;
 
-const ACCEPTED_ORIGINS = ["http://localhost:3000"];
+const ACCEPTED_ORIGINS = ["http://localhost:3000", "*"];
 
 app.options("*", (req, res) => {
   const origin = req.headers("origin");
