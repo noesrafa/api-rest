@@ -123,28 +123,22 @@ const generateMessageTreble = async (req, res) => {
         user_session_keys: [
           {
             key: "message",
-            value: message,
+            value: "Respuesta quemada",
           },
         ],
       };
 
-      const response = await fetch(
-        `https://main.treble.ai/session/${req.session_id}/update`,
-        {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.TREBLE_API_KEY}`,
-          },
-        }
-      );
+      await fetch(`https://main.treble.ai/session/${req.session_id}/update`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.TREBLE_API_KEY}`,
+        },
+      });
 
       res.status(200).send({
-        botMessage: message,
-        nextModuleNickname: "",
-        responseExpected: true,
-        trebleResponse: response,
+        status: "success",
       });
     } else if (run.status === "requires_action") {
       const action = await handleRequiresAction(run, thread, openai);
@@ -154,27 +148,21 @@ const generateMessageTreble = async (req, res) => {
         user_session_keys: [
           {
             key: "message",
-            value: actionMessage,
+            value: "Respuesta quemada",
           },
         ],
       };
 
-      const response = await fetch(
-        `https://main.treble.ai/session/${req.session_id}/update`,
-        {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.TREBLE_API_KEY}`,
-          },
-        }
-      );
+      await fetch(`https://main.treble.ai/session/${req.session_id}/update`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.TREBLE_API_KEY}`,
+        },
+      });
       res.status(200).send({
-        botMessage: message,
-        nextModuleNickname: "",
-        responseExpected: true,
-        trebleResponse: response,
+        status: "success",
       });
     } else {
       res.status(404).send({
