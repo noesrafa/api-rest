@@ -27,13 +27,6 @@ const generateMessage = async (req, res) => {
       ? body?.session?.parsedResponses?.["Welcome message"]?.parsedResponse
       : body?.userMessage?.message;
 
-  // res.status(200).send({
-  //   status: "success",
-  //   message: email,
-  //   userMessage: userMessage,
-  // });
-  // return;
-
   try {
     const previousThreads = await threadsByUser(email);
     const haveThreads = previousThreads && previousThreads?.length > 0;
@@ -102,6 +95,7 @@ const generateMessageTreble = async (req, res) => {
   );
 
   try {
+    console.log("TRY", "\n\n");
     const previousThreads = await threadsByUser(email);
     const haveThreads = previousThreads && previousThreads?.length > 0;
 
@@ -157,35 +151,32 @@ const generateMessageTreble = async (req, res) => {
         treble: JSON.stringify(trebleResponse),
       });
     } else if (run.status === "requires_action") {
-      //   const action = await handleRequiresAction(run, thread, openai);
-      //   const actionMessage = action?.[0]?.content?.[0]?.text?.value;
-      //   const payload = {
-      //     user_session_keys: [
-      //       {
-      //         key: "message",
-      //         value: actionMessage,
-      //       },
-      //     ],
-      //   };
-      //   await fetch(
-      //     `https://main.treble.ai/session/${req.body.session_id}/update`,
-      //     {
-      //       method: "POST",
-      //       body: JSON.stringify(payload),
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //         Authorization: `Bearer ${process.env.TREBLE_API_KEY}`,
-      //       },
-      //     }
-      //   );
-      //   res.status(200).send({
-      //     status: "success",
-      //   });
-      // } else {
-      //   res.status(404).send({
-      //     status: run.status,
-      //     message: run,
-      //   });
+      const action = await handleRequiresAction(run, thread, openai);
+      const actionMessage = action?.[0]?.content?.[0]?.text?.value;
+      const payload = {
+        user_session_keys: [
+          {
+            key: "message",
+            value: actionMessage,
+          },
+        ],
+      };
+      await fetch(`https://main.treble.ai/session/${sessionId}/update`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      res.status(200).send({
+        status: "success",
+        message: actionMessage,
+      });
+    } else {
+      res.status(404).send({
+        status: run.status,
+        message: run,
+      });
     }
   } catch (error) {
     res.status(500).send({
