@@ -90,6 +90,7 @@ const generateMessage = async (req, res) => {
 };
 
 const generateMessageTreble = async (req, res) => {
+  console.log("REQ", req.body, "\n\n");
   const userMessage = req.body.actual_response;
   const email = req.body.cellphone;
 
@@ -128,17 +129,25 @@ const generateMessageTreble = async (req, res) => {
         ],
       };
 
-      await fetch(`https://main.treble.ai/session/${req.session_id}/update`, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.TREBLE_API_KEY}`,
-        },
-      });
+      console.log("PAYLOAD", payload, "\n\n");
+
+      const trebleResponse = await fetch(
+        `https://main.treble.ai/session/${req.session_id}/update`,
+        {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.TREBLE_API_KEY}`,
+          },
+        }
+      );
+
+      console.log("TREBLE RESPONSE", trebleResponse, "\n\n");
 
       res.status(200).send({
         status: "success",
+        message: "respuesta quemada 2",
       });
     } else if (run.status === "requires_action") {
       const action = await handleRequiresAction(run, thread, openai);
