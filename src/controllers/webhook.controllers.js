@@ -21,7 +21,7 @@ const generateMessage = async (req, res) => {
   console.log("bodyString", JSON.stringify(body));
   console.log("messages", body?.session?.parsedResponses?.["Welcome message"]);
 
-  const email = body?.session?.properties?.CONTACT?.email?.value;
+  const email = body?.session?.properties?.CONTACT?.nmero_de_telfono?.value;
   const userMessage =
     body?.userMessage?.message === email
       ? body?.session?.parsedResponses?.["Welcome message"]?.parsedResponse

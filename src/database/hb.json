@@ -1,6 +1,6 @@
 {
   "portalId": 9494835,
-  "userMessage": { "message": "Si", "quickReply": null },
+  "userMessage": { "message": "5529985379", "quickReply": null },
   "parsedResult": null,
   "bot": {
     "nickname": "PRY-CX AI",
@@ -23,43 +23,46 @@
     }
   },
   "session": {
-    "vid": 23455317665,
-    "conversationId": 7382617241,
+    "vid": 31886459238,
+    "conversationId": 7396875824,
     "botNickname": "PRY-CX AI",
     "currentModuleNickname": "Send message to openai",
-    "sessionStartedAt": 1718739545085,
-    "lastInteractionAt": 1718740159105,
+    "sessionStartedAt": 1718917041393,
+    "lastInteractionAt": 1718917052203,
     "state": "ACTIVE",
     "customState": {},
-    "responseExpected": true,
+    "responseExpected": false,
     "parsedResponses": {
-      "Get email": {
-        "parsedResponse": "noesrafa@gmail.com",
-        "parsedQuickReplyLabel": null,
-        "customState": {},
-        "propertyChanges": { "contact": { "email": "noesrafa@gmail.com" } },
-        "propertyValueType": "STRING",
-        "success": true,
-        "preempted": false,
-        "executionTime": 1718740046931
-      },
       "Welcome message": {
-        "parsedResponse": "Holaaaa",
+        "parsedResponse": "Hola",
         "parsedQuickReplyLabel": null,
         "customState": {},
         "propertyChanges": {},
         "propertyValueType": "STRING",
         "success": true,
         "preempted": false,
-        "executionTime": 1718739545213
+        "executionTime": 1718917041473
+      },
+      "Teléfono": {
+        "parsedResponse": "5529985379",
+        "parsedQuickReplyLabel": null,
+        "customState": {},
+        "propertyChanges": { "contact": { "nmero_de_telfono": "5529985379" } },
+        "propertyValueType": "STRING",
+        "success": true,
+        "preempted": false,
+        "executionTime": 1718917052088
       }
     },
     "properties": {
       "CONTACT": {
-        "email": { "value": "noesrafa@gmail.com", "synchedAt": 1718740047769 }
+        "nmero_de_telfono": {
+          "value": "5529985379",
+          "synchedAt": 1718917052193
+        }
       },
       "CONVERSATION": {
-        "threadId": { "value": "ThreadId{7382617241}", "synchedAt": 0 }
+        "threadId": { "value": "ThreadId{7396875824}", "synchedAt": 0 }
       }
     }
   },
