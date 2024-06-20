@@ -60,7 +60,11 @@ const generateMessage = async (req, res) => {
         responseExpected: true,
       });
     } else if (run.status === "requires_action") {
-      const action = await handleRequiresAction(run, thread, openai);
+      const userInfo = {
+        cellphone: email,
+        country_code: "+52",
+      };
+      const action = await handleRequiresAction(run, thread, openai, userInfo);
       const actionMessage = action?.[0]?.content?.[0]?.text?.value;
 
       res.status(200).send({

@@ -1,6 +1,6 @@
 {
   "portalId": 9494835,
-  "userMessage": { "message": "noesrafa@gmail.com", "quickReply": null },
+  "userMessage": { "message": "Si", "quickReply": null },
   "parsedResult": null,
   "bot": {
     "nickname": "PRY-CX AI",
@@ -9,7 +9,7 @@
   },
   "module": {
     "botNickname": "PRY-CX AI",
-    "fallbackNextModuleNickname": null,
+    "fallbackNextModuleNickname": "CREATE TICKET",
     "failureNextModuleNickname": null,
     "moduleType": "WEBHOOK",
     "nickname": "Send message to openai",
@@ -23,15 +23,15 @@
     }
   },
   "session": {
-    "vid": 29823468290,
-    "conversationId": 7353179221,
+    "vid": 23455317665,
+    "conversationId": 7382617241,
     "botNickname": "PRY-CX AI",
     "currentModuleNickname": "Send message to openai",
-    "sessionStartedAt": 1718299815059,
-    "lastInteractionAt": 1718299825946,
+    "sessionStartedAt": 1718739545085,
+    "lastInteractionAt": 1718740159105,
     "state": "ACTIVE",
     "customState": {},
-    "responseExpected": false,
+    "responseExpected": true,
     "parsedResponses": {
       "Get email": {
         "parsedResponse": "noesrafa@gmail.com",
@@ -41,25 +41,25 @@
         "propertyValueType": "STRING",
         "success": true,
         "preempted": false,
-        "executionTime": 1718299825041
+        "executionTime": 1718740046931
       },
       "Welcome message": {
-        "parsedResponse": "hola crayola",
+        "parsedResponse": "Holaaaa",
         "parsedQuickReplyLabel": null,
         "customState": {},
         "propertyChanges": {},
         "propertyValueType": "STRING",
         "success": true,
         "preempted": false,
-        "executionTime": 1718299815176
+        "executionTime": 1718739545213
       }
     },
     "properties": {
       "CONTACT": {
-        "email": { "value": "noesrafa@gmail.com", "synchedAt": 1718299825850 }
+        "email": { "value": "noesrafa@gmail.com", "synchedAt": 1718740047769 }
       },
       "CONVERSATION": {
-        "threadId": { "value": "ThreadId{7353179221}", "synchedAt": 0 }
+        "threadId": { "value": "ThreadId{7382617241}", "synchedAt": 0 }
       }
     }
   },

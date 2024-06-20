@@ -1,0 +1,18 @@
+{
+  "country_code": "+52",
+  "cellphone": "15529985379",
+  "session_id": "cfbd18e6148f77ca4a05be430776d9d675f33a26e1e38f48282328f1",
+  "conversation_id": 609744,
+  "question": {
+    "type": "open",
+    "text": "Sabemos que necesitas respuesta a tus dudas ✅ Estamos trabajando para responderte lo más pronto posible ⚡️ Lamentamos la demora y agradecemos tu comprensión 🙌"
+  },
+  "sent_at": "2024-06-19 17:29:05.584949",
+  "sent_text": "Sabemos que necesitas respuesta a tus dudas ✅ Estamos trabajando para responderte lo más pronto posible ⚡️ Lamentamos la demora y agradecemos tu comprensión 🙌",
+  "user_session_keys": [
+    { "key": "message", "value": "Hola", "type": null },
+    { "key": "deployment_squad", "value": "DS_5215513751952", "type": null }
+  ],
+  "responded_at": "2024-06-19 17:29:15",
+  "actual_response": "Hola"
+}
