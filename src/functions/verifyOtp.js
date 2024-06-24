@@ -2,9 +2,9 @@ import { updateUser } from "./user.js";
 
 const verifyOTP = async (tool, cellphone, country_code) => {
   const functionArgs = JSON.parse(tool?.function?.arguments);
-  const code = functionArgs?.otp;
+  const code = `${functionArgs?.otp}`;
 
-  const response = await fetch("https://api2.heru.app/signin/verify-otp", {
+  await fetch("https://api2.heru.app/signin/verify-otp", {
     method: "POST",
     body: JSON.stringify({
       cellphone,
