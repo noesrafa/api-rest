@@ -3,11 +3,10 @@ import User from "../models/user.model.js";
 const fetchDeclarationsByPeriod = async (userProfile, period) => {
   try {
     console.log(
-      `https://api2.heru.app/tax/fiscal-profile/declarations/montly-overview/45604/${period.year}/${period.month}`
+      `https://api2.heru.app/tax/fiscal-profile/declarations/montly-overview/${userProfile.heruId}/${period.year}/${period.month}`
     );
     const response = await fetch(
-      // `https://api2.heru.app/tax/fiscal-profile/declarations/montly-overview/${userProfile.heruId}/${period.year}/${period.month}`,
-      `https://api2.heru.app/tax/fiscal-profile/declarations/montly-overview/45604/${period.year}/${period.month}`,
+      `https://api2.heru.app/tax/fiscal-profile/declarations/montly-overview/${userProfile.heruId}/${period.year}/${period.month}`,
       {
         method: "GET",
         headers: {
@@ -17,18 +16,8 @@ const fetchDeclarationsByPeriod = async (userProfile, period) => {
     );
 
     const responseJson = await response.json();
-    const presentedDeclarations =
-      responseJson?.resource?.declarations?.declarations?.filter(
-        (declaration) => declaration.status === "PRESENTADA"
-      );
 
-    const lastDeclarationId = presentedDeclarations.sort(
-      (a, b) => new Date(b.declarationDate) - new Date(a.declarationDate)
-    )?.[0]?.declarationId;
-
-    console.log("\n\n ==== DECLARACIONES ====\n\n", responseJson);
-
-    return lastDeclarationId;
+    return responseJson?.resource?.declarations?.declarations;
   } catch (error) {
     return { error, message: "Error al obtener las declaraciones por periodo" };
   }
@@ -61,14 +50,25 @@ const getAcuse = async (tool, userInfo) => {
     return {
       tool_call_id: tool.id,
       output:
-        "Lo siento, pero no es posible obtener acuses de años anteriores a 2019. Por favor, intenta con un año mas reciente.",
+        "No es posible obtener acuses de años anteriores a 2019. Por favor, intenta con un año mas reciente.",
     };
   }
   if (functionArgs?.year > new Date().getFullYear()) {
     return {
       tool_call_id: tool.id,
       output:
-        "Lo siento, pero no es posible obtener acuses de años futuros. Por favor, intenta con un año mas reciente.",
+        "No es posible obtener acuses de años futuros. Por favor, intenta con un año mas reciente.",
+    };
+  }
+
+  if (
+    functionArgs?.year == new Date().getFullYear() &&
+    functionArgs?.month > new Date().getMonth() + 1
+  ) {
+    return {
+      tool_call_id: tool.id,
+      output:
+        "No es posible obtener acuses de meses futuros. Por favor, intenta con un mes mas reciente.",
     };
   }
 
@@ -85,12 +85,38 @@ const getAcuse = async (tool, userInfo) => {
   }
   console.log("\n\n ==== FUNCTION ARGS ====\n\n", functionArgs);
 
-  const declarationId = await fetchDeclarationsByPeriod(user, {
+  const declarations = await fetchDeclarationsByPeriod(user, {
     year: functionArgs?.year,
     month: functionArgs?.month,
   });
 
-  const declarationInfo = await fetchDeclarationById(user, declarationId);
+  const presentedDeclarations = declarations?.filter(
+    (declaration) => declaration.status === "PRESENTADA"
+  );
+
+  if (!presentedDeclarations) {
+    const statusMessages = {
+      PENDIENTE:
+        "Tu declaracion esta pendiente de presentar, si ya la presentaste, es posible que el sistema aún no se haya actualizado, por favor intenta de nuevo más tarde",
+      "PENDIENTE DE PAGO SAT":
+        "Tu declaracion esta pendiente de pago al SAT, si ya la pagaste, es posible que el sistema aún no se haya actualizado, por favor intenta de nuevo más tarde",
+    };
+
+    return {
+      tool_call_id: tool.id,
+      output:
+        statusMessages[declarations?.[0]?.status] ||
+        "No se encontraron declaraciones presentadas en el periodo seleccionado. Por favor, intenta con otro periodo",
+    };
+  }
+
+  const lastDeclarationId = presentedDeclarations.sort(
+    (a, b) => new Date(b.declarationDate) - new Date(a.declarationDate)
+  )?.[0]?.declarationId;
+
+  console.log("\n\n ==== DECLARACIONES ====\n\n", lastDeclarationId);
+
+  const declarationInfo = await fetchDeclarationById(user, lastDeclarationId);
 
   console.log("\n\n ==== Declaracion ====\n\n", declarationInfo);
 
@@ -100,7 +126,7 @@ const getAcuse = async (tool, userInfo) => {
     tool_call_id: tool.id,
     output: url
       ? `Listo, puedes acceder a tu acuse del periodo ${functionArgs?.month}/${functionArgs?.year} desde el siguiente enlace: ${url}`
-      : "No se encontro el acuse, esto puede deberse a diferentes factores, por favor intenta de nuevo mas tarde. Si el problema persiste, te transmitiremos a un asesor para que te ayude a obtener tu acuse.",
+      : "No pudimos encontrar el acuse, esto puede suceder por diferentes factores, por favor intenta nuevamente más tarde. Si el problema persiste, te transmitiremos a un asesor para que te ayude a obtener tu acuse.",
   };
 };
 
