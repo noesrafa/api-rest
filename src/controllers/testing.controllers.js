@@ -5,7 +5,7 @@ const testingTool = async (req, res) => {
     {
       id: "call_OiybIEyd1VdONMklTjOXQ6Q7",
       type: "function",
-      function: { name: "get_acuse", arguments: '{"month":72,"year":2023}' },
+      function: { name: "get_acuse", arguments: '{"month":3,"year":2023}' },
     },
     { cellphone: "5529985379", country_code: "+52" }
   );

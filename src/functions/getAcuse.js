@@ -94,7 +94,7 @@ const getAcuse = async (tool, userInfo) => {
     (declaration) => declaration.status === "PRESENTADA"
   );
 
-  if (!presentedDeclarations) {
+  if (presentedDeclarations?.length === 0) {
     const statusMessages = {
       PENDIENTE:
         "Tu declaracion esta pendiente de presentar, si ya la presentaste, es posible que el sistema aún no se haya actualizado, por favor intenta de nuevo más tarde",
@@ -110,7 +110,7 @@ const getAcuse = async (tool, userInfo) => {
     };
   }
 
-  const lastDeclarationId = presentedDeclarations.sort(
+  const lastDeclarationId = presentedDeclarations?.sort(
     (a, b) => new Date(b.declarationDate) - new Date(a.declarationDate)
   )?.[0]?.declarationId;
 
