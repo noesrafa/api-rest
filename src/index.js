@@ -6,6 +6,7 @@ import V1RouterUsers from "./v1/routes/users.routes.js";
 import V1ThreadsRouter from "./v1/routes/threads.routes.js";
 import V1WebhookRouter from "./v1/routes/webhook.routes.js";
 import V1TestingRouter from "./v1/routes/testing.routes.js";
+import V1ClaudeRouter from "./v1/routes/claude.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 1234;
@@ -34,6 +35,7 @@ app.use("/api/v1/users", V1RouterUsers);
 app.use("/api/v1/threads", V1ThreadsRouter);
 app.use("/api/v1/webhook", V1WebhookRouter);
 app.use("/api/v1/testing", V1TestingRouter);
+app.use("/api/v1/claude", V1ClaudeRouter);
 
 mongoose
   .connect(
